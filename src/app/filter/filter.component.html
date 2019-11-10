@@ -1,0 +1,28 @@
+<div
+  class="popup-filter"
+  (click)="onCheckBoxClick($event)"
+  [style.top]="params.top + 'px'"
+  [style.left]="params.left + 'px'"
+>
+  <input
+    class="text"
+    type="text"
+    [formControl]="searchControl"
+    placeholder="Найти..."
+  />
+
+  <form [formGroup]="form">
+    <div
+      *ngFor="let control of form.controls[columnName].controls; let i = index"
+    >
+      <label
+        class="checkbox"
+        [formArrayName]="columnName"
+        *ngIf="!params.data[i]?.hide"
+      >
+        <input type="checkbox" [formControlName]="i" />
+        {{ params.data[i]?.name }}
+      </label>
+    </div>
+  </form>
+</div>

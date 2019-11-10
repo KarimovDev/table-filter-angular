@@ -1,0 +1,19 @@
+:host {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+}
+
+.popup-filter {
+  position: absolute;
+  background: lightgrey;
+  align-items: center;
+  border: 1px solid black;
+}
+
+.checkbox, .text {
+  padding: 8px 8px;
+  display: block;
+}
