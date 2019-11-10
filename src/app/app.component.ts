@@ -44,7 +44,6 @@ export class AppComponent extends BaseComponent implements OnInit {
 
     this.getDestroyableObserver(this.appState.filterState$).subscribe(
       currState => {
-        console.warn(currState);
         this.currFilterState = currState;
 
         this.rows.forEach((row, index) => {
