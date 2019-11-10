@@ -81,7 +81,8 @@ export class AppComponent extends BaseComponent implements OnInit {
         if (isUniqueRow) {
           const rowName = currEl[columnName];
           const rowValueFromState =
-            this.currFilterState.get(columnName) && this.appState.countState
+            this.currFilterState.get(columnName) &&
+            this.appState.countState.get(columnName)
               ? !this.currFilterState.get(columnName).get(rowName)
               : false;
 
