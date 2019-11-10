@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { FilterStateMap, CountState } from './types';
 
 @Injectable()
 export class AppStateService {
-  private filterStateSubject = new BehaviorSubject<any>({});
-  private countStateSubject = new BehaviorSubject<any>({});
+  private filterStateSubject = new BehaviorSubject<FilterStateMap>(new Map());
+  private countStateSubject = new BehaviorSubject<CountState>(new Map());
   public readonly filterState$ = this.filterStateSubject.asObservable();
-  public readonly countState$ = this.countStateSubject
-    .asObservable()
-    .pipe(tap(x => console.warn(x)));
+  public readonly countState$ = this.countStateSubject.asObservable();
 
   get filterState() {
     return this.filterStateSubject.getValue();

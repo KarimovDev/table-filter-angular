@@ -11,17 +11,20 @@
     placeholder="Найти..."
   />
 
-  <form [formGroup]="form">
+  <form [formGroup]="checkBoxFormGroup">
     <div
-      *ngFor="let control of form.controls[columnName].controls; let i = index"
+      *ngFor="
+        let control of checkBoxFormGroup.controls[columnName].controls;
+        let i = index
+      "
     >
       <label
         class="checkbox"
         [formArrayName]="columnName"
-        *ngIf="!params.data[i]?.hide"
+        *ngIf="!params.columnFilterData[i]?.hide"
       >
         <input type="checkbox" [formControlName]="i" />
-        {{ params.data[i]?.name }}
+        {{ params.columnFilterData[i]?.name }}
       </label>
     </div>
   </form>

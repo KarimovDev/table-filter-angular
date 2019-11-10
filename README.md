@@ -1,6 +1,6 @@
 # TableFilter
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.17.
+This is a pure Angular 8 project which show how can you work with tables and filters in Angular.
 
 ## Development server
 

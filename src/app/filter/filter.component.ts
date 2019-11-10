@@ -6,21 +6,22 @@ import {
   HostListener,
   OnInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
 } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { AppStateService } from '../app.state.service';
 import { BaseComponent } from '../base.component';
 import { map, debounceTime } from 'rxjs/operators';
+import { PopupParams, ColumnFilterStateMap } from '../types';
 
 @Component({
   selector: 'app-filter-popup',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterComponent extends BaseComponent implements OnInit {
-  public form: FormGroup;
+  public checkBoxFormGroup: FormGroup;
   public searchControl: FormControl;
   public columnName: string;
 
@@ -33,7 +34,7 @@ export class FilterComponent extends BaseComponent implements OnInit {
   }
 
   @Input()
-  public params: any;
+  public params: PopupParams;
 
   @Output()
   closed = new EventEmitter();
@@ -44,46 +45,64 @@ export class FilterComponent extends BaseComponent implements OnInit {
     const formBuilderData = {};
     formBuilderData[this.columnName] = new FormArray([]);
 
-    this.form = this.formBuilder.group(formBuilderData);
+    this.checkBoxFormGroup = this.formBuilder.group(formBuilderData);
+    this.params.columnFilterData.forEach(el => {
+      const control = new FormControl(el.isForbidden);
+      (this.checkBoxFormGroup.controls[
+        this.params.columnName
+      ] as FormArray).push(control);
+    });
+
     this.searchControl = this.formBuilder.control('');
     this.getDestroyableObserver(this.searchControl.valueChanges)
       .pipe(debounceTime(300))
-      .subscribe(el => {
-        this.params.data.forEach(
-          subEl => (subEl.hide = subEl.name.toLowerCase().includes(el.toLowerCase()) ? false : true)
+      .subscribe(searchValue => {
+        this.params.columnFilterData.forEach(
+          checkbox =>
+            (checkbox.hide = !checkbox.name
+              .toLowerCase()
+              .includes(searchValue.toLowerCase()))
         );
+
         this.ref.markForCheck();
       });
 
-    this.params.data.forEach(el => {
-      const control = new FormControl(el.value);
-      (this.form.controls[this.params.columnName] as FormArray).push(control);
-    });
-
-    this.getDestroyableObserver(this.form.valueChanges)
+    this.getDestroyableObserver(this.checkBoxFormGroup.valueChanges)
       .pipe(
-        map(el => {
-          const result = {};
-          result[this.columnName] = el[this.columnName].reduce(
-            (res, currEl, i) => {
-              res[this.params.data[i].name] = !currEl;
-              return res;
-            },
-            {}
-          );
-          return result;
-        })
+        map(
+          (formGroup): ColumnFilterStateMap => {
+            return formGroup[this.columnName].reduce(
+              (result: ColumnFilterStateMap, currEl: boolean, i: number) => {
+                const fieldName = this.params.columnFilterData[i].name;
+                const forbiddenField = !currEl;
+
+                result.set(fieldName, forbiddenField);
+
+                return result;
+              },
+              new Map()
+            );
+          }
+        )
       )
-      .subscribe(el => {
-        const count = {};
-        count[this.columnName] = Object.values(el[this.columnName]).filter(
-          el => !el
-        ).length;
-        if (!count[this.columnName]) {
-          Object.keys(el).forEach(key => el[key] = !el[key]);
+      .subscribe((resultMap: ColumnFilterStateMap) => {
+        let count = 0;
+        resultMap.forEach(el => {
+          if (!el) {
+            count++;
+          }
+        });
+        if (!count) {
+          resultMap.forEach((value, key) => resultMap.set(key, !value));
         }
-        this.appState.filterState = { ...this.appState.filterState, ...el };
-        this.appState.countState = { ...this.appState.countState, ...count };
+        this.appState.filterState = this.appState.filterState.set(
+          this.columnName,
+          resultMap
+        );
+        this.appState.countState = this.appState.countState.set(
+          this.columnName,
+          count
+        );
       });
   }
 

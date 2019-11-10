@@ -8,17 +8,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AppStateService } from './app.state.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FilterComponent,
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-  ],
+  declarations: [AppComponent, FilterComponent],
+  imports: [BrowserModule, BrowserAnimationsModule, ReactiveFormsModule],
   providers: [FilterService, AppStateService],
   bootstrap: [AppComponent],
   entryComponents: [FilterComponent],
 })
-export class AppModule { }
+export class AppModule {}

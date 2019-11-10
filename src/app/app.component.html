@@ -8,7 +8,11 @@
       *ngFor="let column of headers"
       (click)="showPopupFilter($event)"
     >
-    {{ currCountState[column] ? "Выбрано: " + currCountState[column] : "Фильтр" }}
+      {{
+        currCountState.get(column)
+          ? 'Выбрано: ' + currCountState.get(column)
+          : 'Фильтр'
+      }}
     </td>
   </tr>
   <ng-container *ngFor="let row of rows; let i = index">
