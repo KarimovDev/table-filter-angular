@@ -1,7 +1,7 @@
 # TableFilter
 
-This is a pure Angular 8 project which show how can you work with tables and filters in Angular.
-Filter popup was implemented through Angular customElements.
+This is a pure Angular 8 project which show how can you work with tables and filters in Angular.\
+Filter popup was implemented through Angular customElements.\
 Components' communication use service with behaviorSubject.
 
 ## Development server
