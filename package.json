@@ -11,7 +11,7 @@
     "lint:fix": "tslint -c tslint.json -p tsconfig.json --fix \"src/**/*.ts\"",
     "format": "prettier --write {\"src/app/**/*\",\"src/style.css\",\"src/index.html\"}",
     "e2e": "ng e2e",
-    "coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "coverage": "cat ./coverage/table-filter/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "husky": {
     "hooks": {

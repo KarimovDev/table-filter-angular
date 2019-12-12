@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/KarimovDev/table-filter-angular.svg?branch=master)](https://travis-ci.org/KarimovDev/table-filter-angular)
 [![Coverage Status](https://coveralls.io/repos/github/KarimovDev/table-filter-angular/badge.svg?branch=master)](https://coveralls.io/github/KarimovDev/table-filter-angular?branch=master)
 # Table with Filter Angular
 
