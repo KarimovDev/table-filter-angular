@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test --code-coverage",
+    "testTravis": "ng test --browsers PhantomJS --code-coverage",
     "lint": "tslint -c tslint.json -p tsconfig.json \"src/**/*.ts\"",
     "lint:fix": "tslint -c tslint.json -p tsconfig.json --fix \"src/**/*.ts\"",
     "format": "prettier --write {\"src/app/**/*\",\"src/style.css\",\"src/index.html\"}",
