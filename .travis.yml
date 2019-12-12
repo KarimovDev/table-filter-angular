@@ -1,12 +1,24 @@
-language: node_js
+dist: trusty
 sudo: false
+language: node_js
 node_js:
   - "13.3.0"
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+
+cache:
+  directories:
+    - ./node_modules
+
 install:
   - npm install
 script:
   - npm run lint
-  - npm testTravis
+  - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
   - npm run build
 after_success:
   - npm run coverage
